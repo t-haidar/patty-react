@@ -9,6 +9,26 @@ const items = [
 
 function Menu({ cart, addToCart, removeFromCart, clearCart }) {
   const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+const placeOrder = async () => {
+  console.log("Place Order clicked");
+  try {
+    await fetch("http://localhost:5000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        items: cart,
+        total
+      })
+    });
+
+    alert("Order placed!");
+    clearCart();
+  } catch (error) {
+    console.error(error);
+  }
+};
   return (
     <div className="bg-[#111] min-h-screen text-white px-6 py-10">
       <h2 className="text-3xl font-bold text-center mb-8">Menu</h2>
@@ -22,6 +42,7 @@ function Menu({ cart, addToCart, removeFromCart, clearCart }) {
           </div>
         ))}
       </div>
+
       <div className="bg-[#1b1b1b] max-w-2xl mx-auto mt-12 p-6 rounded-xl">
         <h3 className="text-2xl font-bold mb-4">Your Cart</h3>
         {cart.length === 0 ? (
@@ -38,11 +59,18 @@ function Menu({ cart, addToCart, removeFromCart, clearCart }) {
             ))}
             <p className="text-right font-bold mt-4 text-lg">Total: ${total.toFixed(2)}</p>
             <button onClick={clearCart} className="mt-4 bg-orange-400 text-black font-bold px-5 py-2 rounded hover:bg-orange-500">Clear Cart</button>
+             <button
+  onClick={placeOrder}
+  className="mt-4 ml-4 bg-green-500 text-white font-bold px-5 py-2 rounded hover:bg-green-600"
+>
+  Place Order
+</button>
           </>
         )}
       </div>
+
       <footer className="bg-black text-center py-6 mt-10 text-gray-400">
-        <p>Open: Mon-Sun 10AM - 8PM</p>
+        <p>Open: Mon–Sun 10AM – 8PM</p>
         <p>Follow us: Facebook | Instagram</p>
       </footer>
     </div>
