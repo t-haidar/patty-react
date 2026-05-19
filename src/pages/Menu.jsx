@@ -12,7 +12,7 @@ function Menu({ cart, addToCart, removeFromCart, clearCart }) {
 const placeOrder = async () => {
   console.log("Place Order clicked");
   try {
-    await fetch("http://localhost:5000/api/orders", {
+    await fetch("https://patty-react.onrender.com/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
